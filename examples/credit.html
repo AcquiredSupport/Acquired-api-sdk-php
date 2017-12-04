@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Acquired credit</title>
+	<link href="./public/css/general.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="form-box">
+		<h1>Acquired</h1>
+		<div>
+			<form action="./credit.php" method="post" class="form-main">
+				<h2>credit</h2>
+				<p class="input-title">basic info: </p>
+				<p><label>amount</label><input type="text" name="amount" value="1" required /></p>
+				<p><label>currency code iso3</label><input type="text" name="currency" value="GBP" required /></p>
+				<p class="input-title">customer info: </p>
+				<p><label>title</label><input type="text" name="title" value="Mr" placeholder="Mr or Mrs" /></p>
+				<p><label>first name</label><input type="text" name="fname" value="first" /></p>
+				<p><label>middle name</label><input type="text" name="mname" value="m" /></p>
+				<p><label>last name</label><input type="text" name="lname" value="end" /></p>
+				<p><label>gender</label><input type="text" name="gender" placeholder="M or F" value="M" /></p>
+				<p><label>date of birth</label><input type="text" name="dob" value="1991-01-01" /></p>
+				<p><label>company</label><input type="text" name="company" value="Apple" /></p>			
+				<p class="input-title">billing info: </p>
+				<p><label>cardholder’s name</label><input type="text" name="name" value="User" /></p>
+				<p><label>card number</label><input type="text" name="number" required value="4024001234567800" /></p>
+				<p><label>card type</label><input type="text" name="type" required value="VISA" /></p>
+				<p><label>card cvv</label><input type="text" name="cvv" value="456" /></p>
+				<p><label>card expiration</label><input type="text" name="cardexp" required value="001001" /></p>
+				<p><label>address</label><input type="text" name="address" value="011 BS1" /></p>
+				<p><label>address2</label><input type="text" name="address2" value="ABC" /></p>
+				<p><label>city</label><input type="text" name="city" value="BC" /></p>
+				<p><label>state</label><input type="text" name="state" value="NY" /></p>
+				<p><label>zipcode</label><input type="text" name="zipcode" value="94700" /></p>
+				<p><label>country_code_iso2</label><input type="text" name="iso2" value="US" /></p>
+				<p><label>phone</label><input type="text" name="phone" value="2000000000" /></p>
+				<p><label>email</label><input type="text" name="email" value="user@gmail.com" /></p>
+				<p class="input-title tac"><button type="submit" class="btn">submit</button></p>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
