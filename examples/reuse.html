@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Acquired reuse</title>
+	<link href="./public/css/general.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="form-box">
+		<h1>Acquired</h1>
+		<div>
+			<form action="./reuse.php" method="post" class="form-main">
+				<h2>reuse demo</h2>
+				<p class="input-title">basic info: </p>
+				<p><label>amount</label><input type="text" name="amount" value="1" required /></p>
+				<p><label>currency code iso3</label><input type="text" name="currency" value="GBP" required /></p>
+                <p><label>original transid</label><input type="text" name="original_transaction_id" value="101750" required /></p>
+                <p><label>cvv</label><input type="text" name="cardcvv" value="123"/></p>
+				<p>
+					<label>transaction type</label>
+					<select name="transaction_type">
+						<option value="1">AUTH_ONLY</option>
+						<option value="2">AUTH_CAPTURE</option>
+					</select>
+				</p>
+				<p class="input-title tac"><button type="submit" class="btn">submit</button></p>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

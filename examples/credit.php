@@ -1,6 +1,8 @@
 <?php
-	if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        require_once('../lib/Acquired.Helper.php');    
+    require_once('../lib/Acquired.Helper.php');
+    use Acquired\CreditPub;
+    
+	if($_SERVER['REQUEST_METHOD'] == 'POST'){        
 
         /**
          * 'timestamp' has been set on Acquired.Helper.php
@@ -9,11 +11,11 @@
          * 'company_id' has been set on Acquired.Config.php
          * 'company_pass' has been set on Acquired.Config.php
          *
-         * step 1: Check customer post data.  (need you to do)
+         * step 1: Check customer post data. (merchant action required)
          * step 2: Set parameters by use setParam().
          * step 3: Post parameters by use postJson().
          * step 4: Check response hash by use generateResHash().
-         * step 5: Do your business according to the result. (need you to do)
+         * step 5: Perform actions based on the result (merchant action required)
          * 
          */
         
@@ -23,9 +25,7 @@
         $merchant_order_id = date('Ymdhis').rand(10000,99999);//just for example
 
         /*====== step 2: Set parameters ======*/
-        $credit = new Credit_pub();
-        $credit->setParam("mid_id","1000");
-        $credit->setParam("mid_pass","test");
+        $credit = new CreditPub();
         //set transaction data        
         $credit->setParam("merchant_order_id",$merchant_order_id);
         $credit->setParam("amount",$amount);
@@ -41,7 +41,7 @@
         $credit->setParam("customer_lname",$_POST['lname']);
         $credit->setParam("customer_gender",$_POST['gender']);
         $credit->setParam("customer_dob",$_POST['dob']);
-        $credit->setParam("customer_ipaddress",$credit->client_ip());
+        $credit->setParam("customer_ipaddress",$credit->clientIp());
         $credit->setParam("customer_company",$_POST['company']);
         //set billing data
         $credit->setParam("cardholder_name",$_POST['name']);
@@ -60,23 +60,23 @@
 
         /*====== step 3: Post parameters ======*/        
         $result = $credit->postJson();
-        // var_dump($result);
+        echo "response:<br>";
+        echo "timestamp: ".$result['timestamp']."<br>";
+        echo "response_code: ".$result['response_code']."<br>";
+        echo "response_message: ".$result['response_message']."<br>";
+        echo "transaction_id: ".$result['transaction_id']."<br>";
+        echo "merchant_order_id: ".$result['merchant_order_id']."<br>";
+        echo "amount: ".$result['amount']."&nbsp;".$result['currency_code_iso3']."<br>";
         
         /*====== step 4: Check response hash ======*/
-        $reponse_hash = $credit->generateResHash($result);
-        if($reponse_hash == $result['response_hash']){
+        $response_hash = $credit->generateResHash($result);
+        if($response_hash == $result['response_hash']){
 
-            /*====== step 5: Do your business ======*/
-
-            echo "timestamp: ".$result['timestamp']."<br>";
-            echo "response_code: ".$result['response_code']."<br>";
-            echo "response_message: ".$result['response_message']."<br>";
-            echo "transaction_id: ".$result['transaction_id']."<br>";
-            echo "merchant_order_id: ".$result['merchant_order_id']."<br>";
-            echo "amount: ".$result['amount']."&nbsp;".$result['currency_code_iso3']."<br>";
+            /*====== step 5: Perform actions based on the result ======*/
+            echo "SUCCESS";
 
         }else{
-            echo "ERROR: Invalid response";
+            echo "ERROR: Invalid response hash";
         }
     }
 
