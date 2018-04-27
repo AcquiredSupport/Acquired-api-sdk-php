@@ -1,18 +1,12 @@
 {
-	"name": "acquired/php-api-library",
-	"type": "library",
-	"description": "A PHP client library for accessing Acquired APIs",
-	"keywords": ["acquired"],
-	"homepage": "https://github.com/AcquiredSupport/Acquired-api-sdk-php",
-	"repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/AcquiredSupport/Acquired-api-sdk-php"
-        }
-    ],
+    "name": "acquired/php-api-lib",
+    "description": "A PHP client library for accessing Acquired APIs",
+    "type": "library",
+    "license": "MIT",
     "minimum-stability": "dev",
     "require": {
         "php": "^5.3.3 || ^7.0",
+        "another-vendor/package": "1.*",
         "ext-curl": "*"
     },
     "autoload": {
