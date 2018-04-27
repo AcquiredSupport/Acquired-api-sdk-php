@@ -1,5 +1,5 @@
 {
-    "name": "acquired/php-api-lib",
+    "name": "acquired/php-api-library",
     "description": "A PHP client library for accessing Acquired APIs",
     "type": "library",
     "license": "MIT",
