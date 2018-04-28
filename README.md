@@ -38,7 +38,7 @@ https://docs.acquired.com/api.php
 You can use Composer or simply Download the Release
 
 ## Composer ##
-The preferred method is via composer. Follow the installation instructions if you do not already have composer installed.
+The preferred method is via composer. Follow the [installation instructions](https://getcomposer.org/doc/00-intro.md) if you do not already have composer installed.
 Once composer is installed, execute the following command in your project root to install this library:
 
 ```php
