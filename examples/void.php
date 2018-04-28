@@ -1,9 +1,9 @@
 <?php
 	
-	require_once('../lib/Acquired.Helper.php');
-    use Acquired\VoidPub;
+	require_once __DIR__ . '/../vendor/autoload.php';
+    use Acquired\Service\VoidHandle;
 
-    $void = new VoidPub();
+    $void = new VoidHandle();
     //set transaction data
     $original_transaction_id = (int)$_POST['original_transaction_id'];
     $void->setParam("original_transaction_id",$original_transaction_id);
@@ -21,7 +21,7 @@
     if($response_hash == $result['response_hash']){
     	echo "SUCCESS";
     }else{
-    	echo "ERROR: Invalid response hash";	
+    	echo "ERROR: Invalid response hash";
     }
 
 ?>

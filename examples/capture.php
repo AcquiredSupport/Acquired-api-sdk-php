@@ -1,9 +1,9 @@
 <?php
 	
-	require_once('../lib/Acquired.Helper.php');
-    use Acquired\CapturePub;
+	require_once __DIR__ . '/../vendor/autoload.php';
+    use Acquired\Service\CaptureHandle;
 
-    $capture = new CapturePub();
+    $capture = new CaptureHandle();
     //set transaction data
     $original_transaction_id = $_POST['original_transaction_id'];
     $amount = $_POST['amount'];

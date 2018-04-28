@@ -1,6 +1,6 @@
 <?php
-    require_once('../lib/Acquired.Helper.php');
-    use Acquired\CreditPub;
+    require_once __DIR__ . '/../vendor/autoload.php';
+    use Acquired\Service\CreditHandle;
     
 	if($_SERVER['REQUEST_METHOD'] == 'POST'){        
 
@@ -25,7 +25,7 @@
         $merchant_order_id = date('Ymdhis').rand(10000,99999);//just for example
 
         /*====== step 2: Set parameters ======*/
-        $credit = new CreditPub();
+        $credit = new CreditHandle();
         //set transaction data        
         $credit->setParam("merchant_order_id",$merchant_order_id);
         $credit->setParam("amount",$amount);

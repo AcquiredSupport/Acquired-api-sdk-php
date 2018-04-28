@@ -1,6 +1,6 @@
 <?php
-require_once('../lib/Acquired.Helper.php');
-use Acquired\AuthPub;
+require_once __DIR__ . '/../vendor/autoload.php';
+use Acquired\Service\AuthHandle;
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
@@ -48,7 +48,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }        
 
     /*====== step 2: Set parameters ======*/
-    $auth = new AuthPub();
+    $auth = new AuthHandle();
 
     $auth->setParam("vt","");
     $auth->setParam("useragent","");

@@ -1,9 +1,9 @@
 <?php
 	
-	require_once('../lib/Acquired.Helper.php');
-    use Acquired\RefundPub;
+	require_once __DIR__ . '/../vendor/autoload.php';
+    use Acquired\Service\RefundHandle;
 
-    $refund = new RefundPub();
+    $refund = new RefundHandle();
     //set transaction data
     $original_transaction_id = $_POST['original_transaction_id'];
     $amount = $_POST['amount'];

@@ -1,6 +1,7 @@
 <?php
+namespace Acquired;
 
-require_once "Acquired.Config.php";
+use Acquired\AcquiredConfig;
 
 class AcquiredCommon
 {	
@@ -24,31 +25,21 @@ class AcquiredCommon
 
 	//require hash
 	function sha256hash($param,$secret){
-		if(isset($param['company_id'])){
-			$_id = $param['company_id'];
-		}else{
-			$_id = $param['mid_id'];
-		}
 	    if(in_array($param['transaction_type'],array('AUTH_ONLY','AUTH_CAPTURE','CREDIT'))){
-			$str=$param['timestamp'].$param['transaction_type'].$_id.$param['merchant_order_id'];
+			$str=$param['timestamp'].$param['transaction_type'].$param['company_id'].$param['merchant_order_id'];
 		}elseif(in_array($param['transaction_type'],array('CAPTURE','VOID','REFUND','SUBSCRIPTION_MANAGE'))){
-			$str=$param['timestamp'].$param['transaction_type'].$_id.$param['original_transaction_id'];
+			$str=$param['timestamp'].$param['transaction_type'].$param['company_id'].$param['original_transaction_id'];
 		}
 		return hash('sha256',$str.$secret);
 	}
 
 	//response hash
 	function responseHash($param,$secret){
-		if(isset($param['company_id'])){
-			$_id = $param['company_id'];
-		}else{
-			$_id = $param['mid'];
-		}
-		$str=$param['timestamp'].$param['transaction_type'].$_id.$param['transaction_id'].$param['response_code'];
-		return hash('sha256',$str.$secret);	
+		$str=$param['timestamp'].$param['transaction_type'].$param["company_id"].$param['transaction_id'].$param['response_code'];
+		return hash('sha256',$str.$secret);
 	}
 
-	function client_ip(){
+	function clientIp(){
 		if (isset($_SERVER['HTTP_CLIENT_IP']) && strcasecmp($_SERVER['HTTP_CLIENT_IP'], "unknown")){
 			$ip = $_SERVER['HTTP_CLIENT_IP'];
 	    }else if (isset($_SERVER['HTTP_CLIENTIP']) && strcasecmp($_SERVER['HTTP_CLIENTIP'], "unknown")){
@@ -66,7 +57,7 @@ class AcquiredCommon
 		return($ip);
 	}
 
-	function xml_to_json($xml){
+	function xmlToJson($xml){
 	    $xmlParser = xml_parser_create();
 	    $info = xml_parse($xmlParser, $xml);
 	    xml_parser_free($xmlParser);
@@ -76,15 +67,15 @@ class AcquiredCommon
 	    }
 
 	    $xml = simplexml_load_string($xml);
-	    return json_encode(to_array($xml));
+	    return json_encode(toArray($xml));
 	}
 
-	function to_array($object){
+	function toArray($object){
 	    if(!empty($object)){
 	        $arr = @(array)$object;
 	        foreach ($arr as &$value) {
 	            if(is_object($value)){
-	                $value = to_array($value);
+	                $value = toArray($value);
 	            }
 	        }
 	        return $arr;    
@@ -93,7 +84,7 @@ class AcquiredCommon
 	    }
 	}
 
-	function array_to_xml($arr){
+	function arrayToXml($arr){
         $xml = "<xml>";
         foreach ($arr as $key=>$val)
         {
@@ -126,7 +117,7 @@ class AcquiredCommon
         }
     }
 
-	public function https_request($url,$data=null,$second=30,$type=null){
+	public function httpsRequest($url,$data=null,$second=30,$type=null){
        	$ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         switch(strtolower($type)){

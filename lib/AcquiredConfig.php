@@ -1,4 +1,6 @@
 <?php
+namespace Acquired;
+
 /**
  * set account config
  */
@@ -6,13 +8,13 @@
 class AcquiredConfig
 {
 	
-	//get from Acquired
 	const COMPANYID = '';
-	const COMMPANYPASS = '';
-	const HASHCODE = 'test';
+	const COMPANYPASS = '';
+	const COMPANYMIDID = '';
+	const HASHCODE = '';
 
 	//require api url
-	const REQUIREURL = ""; 
+	const REQUIREURL = "";
 	//QA: https://qaapi.acquired.com/api.php
 	//PROD: https://gateway.acquired.com/api.php
 

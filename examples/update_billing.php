@@ -1,6 +1,6 @@
 <?php
-require_once('../lib/Acquired.Helper.php');
-use Acquired\SubscriptionManagePub;
+    require_once __DIR__ . '/../vendor/autoload.php';
+    use Acquired\Service\SubscriptionManageHandle;
 
 	if($_SERVER['REQUEST_METHOD'] == 'POST'){
         
@@ -25,7 +25,7 @@ use Acquired\SubscriptionManagePub;
         $merchant_order_id = date('Ymdhis').rand(10000,99999);//just for example
 
         /*====== step 2: Set parameters ======*/
-        $sm = new SubscriptionManagePub();
+        $sm = new SubscriptionManageHandle();
         //set transaction data
         $sm->setParam("merchant_order_id",$merchant_order_id);
         $sm->setParam("original_transaction_id",$_POST['original_transaction_id']);

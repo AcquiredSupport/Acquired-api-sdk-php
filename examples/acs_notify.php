@@ -1,11 +1,11 @@
 <?php
 	
-	require_once('../lib/Acquired.Helper.php');
-    use Acquired\AuthPub;
+	require_once __DIR__ . '/../vendor/autoload.php';
+    use Acquired\Service\AuthHandle;
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' and !empty($_POST['PaRes'])){
 
-        $auth = new AuthPub();
+        $auth = new AuthHandle();
 
         // echo "Received the ACS servers response";
         echo "This is the receive data:<br>";
