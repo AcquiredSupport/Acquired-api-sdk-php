@@ -10,6 +10,7 @@ namespace Acquired\Service;
  * 		createData -- create request array data
  * 		createJson -- change array to json
  * 		postJson -- curl api
+ * 		
  */
 
 use Acquired\AcquiredConfig;
@@ -50,10 +51,10 @@ class HandlePub extends AcquiredCommon
 		$this->param["company_mid_id"] = AcquiredConfig::COMPANYMIDID;
 
 		if(empty($this->param["company_id"])){
-			throw new SDKException("ERROR: Require company_id");
+			throw new AcquiredException("ERROR: Require company_id");
 		}
 		if(empty($this->param["company_pass"])){
-			throw new SDKException("ERROR: Require company_pass");
+			throw new AcquiredException("ERROR: Require company_pass");
 		}
 		
 		$this->param['timestamp'] = $this->now();
