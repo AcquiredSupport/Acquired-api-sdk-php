@@ -129,6 +129,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $md['amount'] = $result['amount'];
                 $md['currency_code_iso3'] = $result['currency_code_iso3'];
                 $md['transaction_type'] = $result['transaction_type'];
+                $md['billing_street'] = $_POST['address'];
+                $md['cardcvv'] = $_POST['cardcvv'];
+                $md['billing_zipcode'] = $_POST['billing_zipcode'];
                 //$md must be encrypted and Base64 encoded.
                 $md = base64_encode(json_encode($md));
                 $auth->setParam('md',$md);

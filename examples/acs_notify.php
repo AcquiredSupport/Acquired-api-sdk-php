@@ -1,6 +1,6 @@
 <?php
-	
-	require_once __DIR__ . '/../vendor/autoload.php';
+    
+    require_once __DIR__ . '/../vendor/autoload.php';
     use Acquired\Service\AuthHandle;
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' and !empty($_POST['PaRes'])){
@@ -21,6 +21,9 @@
         $auth->setParam("amount", $md['amount']);
         $auth->setParam("currency_code_iso3", $md['currency_code_iso3']);
         $auth->setParam("transaction_type", $md['transaction_type']);
+        $auth->setParam("billing_street", $md['billing_street']);
+        $auth->setParam("billing_zipcode", $md['billing_zipcode']);
+        $auth->setParam("cardcvv", $md['cardcvv']);
         $result = $auth->postSettleACS();
 
         echo "This is the response: <br>";

@@ -301,6 +301,11 @@ class AuthHandle extends HandlePub
 			'currency_code_iso3',
 			'original_transaction_id'
 		);
+		$billingParam = array(
+			'cardcvv',
+			'billing_street',
+			'billing_zipcode'
+		);
 		$tdsParam = array(
 			'action',
 			'pares'
@@ -310,6 +315,10 @@ class AuthHandle extends HandlePub
 		foreach($this->param as $k=>$v){
 			if(in_array($k, $transactionParam)){
 				$data['transaction'][$k] = $v;
+				continue;
+			}
+			if(in_array($k, $billingParam)){
+				$data['billing'][$k] = $v;
 				continue;
 			}
 			if(in_array($k, $tdsParam)){
