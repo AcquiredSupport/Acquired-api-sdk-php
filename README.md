@@ -12,10 +12,16 @@ The Acquired API Library for PHP enables you to work with Acquired APIs.
     refund.php
     ...
 |--lib  
-    Acquired.Common.php
-    Acquired.Config.php
-    Acquired.Exception.php
-    Acquired.Helper.php
+    AcquiredCommon.php
+    AcquiredConfig.php
+    AcquiredException.php
+    |--service
+        HandlePub.php
+        AuthHandle.php
+        AuthOnlyHandle.php
+        CaptureHandle.php
+        AuthCaptureHandle.php
+        ...
 |--public  
     |--css
         general.css
@@ -29,23 +35,33 @@ index.php
 https://docs.acquired.com/api.php
 
 ## Installation ##
-You can simply Download the Release
+You can use Composer or simply Download the Release
+
+## Composer ##
+The preferred method is via composer. Follow the installation instructions if you do not already have composer installed.
+Once composer is installed, execute the following command in your project root to install this library:
+
+```php
+composer require Acquired/php-api-library:dev-master
+```
 
 ## Examples ##
 #### Get start
 
-1. set config parameters in Acquired.config.php.
-2. require the below file in the example files.
+1. set config parameters in AcquiredConfig.php.
+2. move the example directory to you web root.
+3. require the below file in the example files if you use composer.
 
 ```php
-require_once('../lib/Acquired.Helper.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 ```
 
 #### How to use
 It is very simply to use like this:
 1. new a obj accoding to your transaction type.
 ```php
-$auth = new Auth_pub();
+use Acquired\Service\AuthHandle;
+$auth = new AuthHandle();
 ```
 2. set parameters.
 ```php
