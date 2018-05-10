@@ -39,6 +39,14 @@ class AcquiredCommon
 		return hash('sha256',$str.$secret);
 	}
 
+	function generateWebhookHash($data){
+	    $hash_tmp = $data["id"] . $data["timestamp"] . $data["company_id"] . $data["event"];
+	    $hash_tmp2 = hash("sha256", $hash_tmp);
+	    $hash_tmp2 = $hash_tmp2 . $data["company_hash_code"];
+	    $hash = hash("sha256", $hash_tmp2);
+	    return $hash;
+	}
+
 	function clientIp(){
 		if (isset($_SERVER['HTTP_CLIENT_IP']) && strcasecmp($_SERVER['HTTP_CLIENT_IP'], "unknown")){
 			$ip = $_SERVER['HTTP_CLIENT_IP'];
