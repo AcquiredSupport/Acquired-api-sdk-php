@@ -11,53 +11,53 @@
 		<div>
 			<form action="./auth_.php" method="post" class="form-main">
 				<h2>auth_only or auth_capture</h2>
-				<p class="input-title">basic info: </p>
-				<p><label>amount</label><input type="text" name="amount" value="1"  /></p>
-				<p><label>currency code iso3</label><input type="text" name="currency" value="GBP"  /></p>
+				<p class="input-title">Basic Info: </p>
+				<p><label>Amount</label><input type="text" name="amount" value="100.00"  /></p>
+				<p><label>Currency Code ISO3</label><input type="text" name="currency" value="GBP"  /></p>
 				<p>
-					<label>transaction type</label>
+					<label>Transaction Type</label>
 					<select name="transaction_type">
 						<option value="1">AUTH_ONLY</option>
-						<option value="2">AUTH_CAPTURY</option>
+						<option value="2">AUTH_CAPTURE</option>
 					</select>
 				</p>
 				<p>
-					<label>subscription type</label>
+					<label>Subscription Type</label>
 					<select name="subscription">
-						<option value="">don't store</option>
-						<option value="1">store encrypted card info</option>
+						<option value="">Do not store</option>
+						<option value="1">Tokenise for future use</option>
 					</select>
 				</p>
 				<p>
 					<label>3-D Secure</label>
 					<select name="tds">
-						<option value="">don't use</option>
+						<option value="">Disabled</option>
 						<option value="1">Enquire</option>
 					</select>
 				</p>
-				<p class="input-title">customer info: </p>
-				<p><label>title</label><input type="text" name="title" value="Mr" placeholder="Mr or Mrs" /></p>
-				<p><label>first name</label><input type="text" name="fname" value="first" /></p>
-				<p><label>middle name</label><input type="text" name="mname" value="m" /></p>
-				<p><label>last name</label><input type="text" name="lname" value="end" /></p>
-				<p><label>gender</label><input type="text" name="gender" placeholder="M or F" value="M" /></p>
-				<p><label>date of birth</label><input type="text" name="dob" value="1991-01-01" /></p>
-				<p><label>company</label><input type="text" name="company" value="Apple" /></p>			
-				<p class="input-title">billing info: </p>
-				<p><label>cardholder’s name</label><input type="text" name="name" value="Pan" /></p>
-				<p><label>card number</label><input type="text" name="number"  value="4012001037141112" /></p>
-				<p><label>card type</label><input type="text" name="type"  value="VISA" /></p>
-				<p><label>card cvv</label><input type="text" name="cvv" value="456" /></p>
-				<p><label>card expiration</label><input type="text" name="cardexp"  value="092018" /></p>
-				<p><label>address</label><input type="text" name="address" value="011 BS1" /></p>
-				<p><label>address2</label><input type="text" name="address2" value="ABC" /></p>
-				<p><label>city</label><input type="text" name="city" value="BC" /></p>
-				<p><label>state</label><input type="text" name="state" value="NY" /></p>
-				<p><label>zipcode</label><input type="text" name="zipcode" value="94700" /></p>
-				<p><label>country_code_iso2</label><input type="text" name="iso2" value="US" /></p>
-				<p><label>phone</label><input type="text" name="phone" value="2152228890" /></p>
-				<p><label>email</label><input type="text" name="email" value="qa102@bitscube.com" /></p>
-				<p class="input-title tac"><button type="submit" class="btn">submit</button></p>
+				<p class="input-title">Customer Info: </p>
+				<p><label>Title</label><input type="text" name="title" value="Mr" placeholder="Mr or Mrs" /></p>
+				<p><label>First Name</label><input type="text" name="fname" value="Edward" /></p>
+				<p><label>Middle Name</label><input type="text" name="mname" value="N" /></p>
+				<p><label>Last Name</label><input type="text" name="lname" value="Johnson" /></p>
+				<p><label>Gender</label><input type="text" name="gender" placeholder="M or F" value="M" /></p>
+				<p><label>Date of Birth</label><input type="text" name="dob" value="1988-12-14" /></p>
+				<p><label>Company</label><input type="text" name="company" value="Acquired Payments" /></p>			
+				<p class="input-title">Billing Info: </p>
+				<p><label>Cardholder’s Name</label><input type="text" name="name" value="MR E N JOHNSON" /></p>
+				<p><label>Card Number</label><input type="text" name="number"  value="4012001037141112" /></p>
+				<p><label>Card Type</label><input type="text" name="type"  value="VISA" /></p>
+				<p><label>CVV2</label><input type="text" name="cvv" value="123" /></p>
+				<p><label>Expiration Date</label><input type="text" name="cardexp"  value="022023" /></p>
+				<p><label>Address</label><input type="text" name="address" value="152 Aldgate Drive" /></p>
+				<p><label>Address Line 2</label><input type="text" name="address2" value="" /></p>
+				<p><label>City</label><input type="text" name="city" value="London" /></p>
+				<p><label>State</label><input type="text" name="state" value="" /></p>
+				<p><label>Post Code</label><input type="text" name="zipcode" value="E1 7RT" /></p>
+				<p><label>Country Code ISO2</label><input type="text" name="iso2" value="GB" /></p>
+				<p><label>Phone</label><input type="text" name="phone" value="0207 4861322" /></p>
+				<p><label>Email</label><input type="text" name="email" value="support@acquired.com" /></p>
+				<p class="input-title tac"><button type="submit" class="btn">SUBMIT</button></p>
 			</form>
 		</div>
 	</div>

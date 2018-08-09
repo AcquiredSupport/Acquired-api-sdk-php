@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Acquired rebill</title>
+	<title>Acquired REBILL</title>
 	<link href="./public/css/general.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -10,19 +10,19 @@
 		<h1>Acquired</h1>
 		<div>
 			<form action="./rebill.php" method="post" class="form-main">
-				<h2>rebill demo</h2>
-				<p class="input-title">basic info: </p>
-				<p><label>amount</label><input type="text" name="amount" value="1" required /></p>
-				<p><label>currency code iso3</label><input type="text" name="currency" value="GBP" required /></p>
-				<p><label>original transid</label><input type="text" name="original_transaction_id" value="101750" required /></p>
+				<h2>REBILL Example</h2>
+				<p class="input-title">Basic Info: </p>
+				<p><label>Amount</label><input type="text" name="amount" value="100.00" required /></p>
+				<p><label>Currency Code ISO3</label><input type="text" name="currency" value="GBP" required /></p>
+				<p><label>Original Transaction ID</label><input type="text" name="original_transaction_id" value="101750" required /></p>
 				<p>
-					<label>transaction type</label>
+					<label>Transaction Type</label>
 					<select name="transaction_type">
 						<option value="1">AUTH_ONLY</option>
 						<option value="2">AUTH_CAPTURE</option>
 					</select>
 				</p>
-				<p class="input-title tac"><button type="submit" class="btn">submit</button></p>
+				<p class="input-title tac"><button type="submit" class="btn">SUBMIT</button></p>
 			</form>
 		</div>
 	</div>
