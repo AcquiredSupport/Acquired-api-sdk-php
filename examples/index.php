@@ -17,6 +17,7 @@
 			<li><a href="./update_billing.html" >UPDATE BILLING demo</a></li>
 			<li><a href="./rebill.html" >REBILL demo</a></li>
 			<li><a href="./reuse.html" >REUSE demo</a></li>
+			<li><a href="./beneficiary_new.html" >BENEFICIARY NEW demo</a></li>
 		</ul>
 	</div>
 </body>

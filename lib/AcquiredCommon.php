@@ -25,7 +25,7 @@ class AcquiredCommon
 
 	//require hash
 	function sha256hash($param,$secret){
-	    if(in_array($param['transaction_type'],array('AUTH_ONLY','AUTH_CAPTURE','CREDIT'))){
+	    if(in_array($param['transaction_type'],array('AUTH_ONLY','AUTH_CAPTURE','CREDIT','BENEFICIARY_NEW'))){
 			$str=$param['timestamp'].$param['transaction_type'].$param['company_id'].$param['merchant_order_id'];
 		}elseif(in_array($param['transaction_type'],array('CAPTURE','VOID','REFUND','SUBSCRIPTION_MANAGE'))){
 			$str=$param['timestamp'].$param['transaction_type'].$param['company_id'].$param['original_transaction_id'];
