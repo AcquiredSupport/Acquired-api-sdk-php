@@ -18,6 +18,9 @@ class AcquiredConfig
 	//QA: https://qaapi.acquired.com/api.php
 	//PROD: https://gateway.acquired.com/api.php
 
+	const VERIFY_CARD_URL = "";
+	//QA: https://qaapi.acquired.com/api.php/forward/tds_version
+
 	//logs path
 	const LOGPATH = '../logs/';
 

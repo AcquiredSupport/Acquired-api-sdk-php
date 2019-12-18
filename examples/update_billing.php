@@ -2,7 +2,7 @@
     require_once __DIR__ . '/../vendor/autoload.php';
     use Acquired\Service\SubscriptionManageHandle;
 
-	if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
         
         /**
          * 'timestamp' has been set on Acquired.Helper.php

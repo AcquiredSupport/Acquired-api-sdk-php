@@ -45,6 +45,9 @@ class BeneficiaryNewHandle extends HandlePub
 				'sort_code',
 				'account_number'
 			);
+			$linkParam = array(
+				'card'
+			);
 
 			$data = array();
 			foreach($this->param as $k=>$v){
@@ -62,6 +65,10 @@ class BeneficiaryNewHandle extends HandlePub
 				}
 				if(in_array($k, $accountParam)){
 					$data['account'][$k] = $v;
+					continue;
+				}
+				if(in_array($k, $linkParam)){
+					$data['link'][$k] = $v;
 					continue;
 				}
 				$data[$k] = $v;

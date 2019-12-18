@@ -8,11 +8,13 @@ namespace Acquired\Service;
  *		createData -- create request array data
  * 		createRebillData -- create rebill request array data
  *		rebillJson -- curl rebill api
- *		checkACSData -- check post to ACS Data
- *		postToACS -- post to ACS
- *		checkSettleACSData -- verify the request settlement data
- *		createSettlementACS -- create settlement request array data
- *		postSettleACS -- curl ACS settlement api
+ *		checkSettleACSData -- 3-DS version 1: verify the request settlement data
+ *		createSettlementACS -- 3-DS version 1: create settlement request array data
+ *		postSettleACS -- 3-DS version 1: curl ACS settlement api
+ *		verifyCard -- verify cardnumber if support 3-DS version 2
+ *		checkSettleACSDatav2 -- 3-DS version 2: verify the request settlement data
+ *		createSettlementACSv2 -- 3-DS version 2: create settlement request array data
+ *		postSettleACSv2 -- 3-DS version 2: curl ACS settlement api
  * 
  */
 
@@ -36,7 +38,7 @@ class AuthHandle extends HandlePub
 		}
 
 		if(empty($this->param["amount"])){
-			throw new AcquiredException("ERROR: Require amount");
+			$this->param["amount"] = 0;
 		}
 
 		if(empty($this->param["currency_code_iso3"])){
@@ -102,7 +104,39 @@ class AuthHandle extends HandlePub
 			$tdsParam = array(
 				'action',
 				'pares',
-				'ipaddress'
+				'ipaddress',
+				'cavv',
+				'xid',
+				'eci',
+				'status',
+				'enrolled',
+				'server_trans_id',
+				'version',
+				'ds_trans_id',
+				'acs_trans_id',
+				'source',
+				'type',
+				'method_url_complete'
+			);
+			$tdsBrowserParam = array(
+				'accept_header',
+				'ip',
+				'java_enabled',
+				'javascript_enabled',
+				'language',
+				'screen_height',
+				'screen_width',
+				'challenge_window_size',
+				'timezone',
+				'user_agent',
+				'color_depth'
+			);
+			$tdsMerchantParam = array(
+				'contact_url',
+				'challenge_url'
+			);
+			$linkParam = array(
+				'beneficiary'
 			);
 
 			$data = array();
@@ -123,8 +157,20 @@ class AuthHandle extends HandlePub
 					$data['tds'][$k] = $v;
 					continue;
 				}
+				if(in_array($k, $tdsBrowserParam)){
+					$data['tds']['browser_data'][$k] = $v;
+					continue;	
+				}
+				if(in_array($k, $tdsMerchantParam)){
+					$data['tds']['merchant'][$k] = $v;
+					continue;
+				}
+				if(in_array($k, $linkParam)){
+					$data['link'][$k] = $v;
+					continue;
+				}
 				$data[$k] = $v;
-			}			
+			}
 
 			return $data;
 
@@ -155,11 +201,18 @@ class AuthHandle extends HandlePub
 				'currency_code_iso3',
 				'original_transaction_id'
 			);
+			$linkParam = array(
+				'pay_out'
+			);
 
 			$data = array();
 			foreach($this->param as $k=>$v){
 				if(in_array($k, $transactionParam)){
 					$data['transaction'][$k] = $v;
+					continue;
+				}
+				if(in_array($k, $linkParam)){
+					$data['link'][$k] = $v;
 					continue;
 				}
 				$data[$k] = $v;
@@ -228,41 +281,6 @@ class AuthHandle extends HandlePub
 		return json_decode($response,true);
 	}
 
-	public function checkACSData(){
-
-		if(empty($this->param['pareq'])){
-			throw new AcquiredException("ERROR: Require pareq");
-		}
-
-		if(empty($this->param['termurl'])){
-			throw new AcquiredException("ERROR: Require termurl");
-		}
-
-		if(empty($this->param['ACS_url'])){
-			throw new AcquiredException("ERROR: Require ACS_url");
-		}
-
-		if(empty($this->param['md'])){
-			throw new AcquiredException("ERROR: Require md");
-		}
-
-	}	
-
-	public function postToACS(){
-		$this->checkACSData();
-
-		$url = $this->param['ACS_url'];
-		$pareq = $this->param['pareq'];
-		$termurl = $this->param['termurl'];	
-		$mdstr = $this->param['md'];
-
-		$post_data = "pareq=".$pareq."&termurl=".$termurl."&md=".$mdstr;
-		$response = $this->httpsRequest($url,$post_data,$this->curl_timeout);
-		$this->clearParam();
-		return $response;
-
-	}
-
 	public function checkSettleACSData(){
 		if(empty($this->param['pares'])){
 			throw new AcquiredException("ERROR: Invalid pares");
@@ -287,44 +305,165 @@ class AuthHandle extends HandlePub
 	}
 
 	public function createSettlementACS(){
-		$this->param['action'] = "SETTLEMENT";
+		try{
+			$this->param['action'] = "SETTLEMENT";
 
-		$this->checkSettleACSData();
+			$this->checkSettleACSData();
+			
+			$this->setBasicParam();		
 
-		$this->setBasicParam();
+			$transactionParam = array(
+				'merchant_order_id',
+				'transaction_type',
+				'subscription_type',
+				'amount',
+				'currency_code_iso3',
+				'original_transaction_id'
+			);
+			$billingParam = array(
+				'cardcvv',
+				'billing_street',
+				'billing_zipcode'
+			);
+			$tdsParam = array(
+				'action',
+				'pares'
+			);
 
-		$transactionParam = array(
-			'merchant_order_id',
-			'transaction_type',
-			'subscription_type',
-			'amount',
-			'currency_code_iso3',
-			'original_transaction_id'
-		);		
-		$tdsParam = array(
-			'action',
-			'pares'
-		);
-
-		$data = array();
-		foreach($this->param as $k=>$v){
-			if(in_array($k, $transactionParam)){
-				$data['transaction'][$k] = $v;
-				continue;
-			}			
-			if(in_array($k, $tdsParam)){
-				$data['tds'][$k] = $v;
-				continue;
+			$data = array();
+			foreach($this->param as $k=>$v){
+				if(in_array($k, $transactionParam)){
+					$data['transaction'][$k] = $v;
+					continue;
+				}
+				if(in_array($k, $billingParam)){
+					$data['billing'][$k] = $v;
+					continue;
+				}
+				if(in_array($k, $tdsParam)){
+					$data['tds'][$k] = $v;
+					continue;
+				}
+				$data[$k] = $v;
 			}
-			$data[$k] = $v;
-		}
 
-		return $data;
+			return $data;
+		}catch(AcquiredException $e){
+			die($e->errorMessage());
+		}
 
 	}
 
+	/**
+	 * [postSettleACS The final step for process 3-D secure v1]
+	 * @return   [array][response]
+	 */
 	public function postSettleACS(){
 		$data = $this->createSettlementACS();
+		$json = json_encode($data);
+		$response = $this->httpsRequest($this->url,$json,$this->curl_timeout,"json");
+		$this->clearParam();
+		return json_decode($response,true);
+	}
+
+	private function checkVerifyCardData(){		
+
+		if(empty($this->param['currency_code_iso3'])){
+			throw new AcquiredException("ERROR: Invalid currency_code_iso3");
+		}
+
+		if(empty($this->param['cardnumber'])){
+			throw new AcquiredException("ERROR: Invalid cardnumber");
+		}
+
+		if(empty($this->param['method_notification_url'])){
+			throw new AcquiredException("ERROR: Invalid method_notification_url");
+		}
+
+	}
+
+	/**
+	 * [verifyCard 3ds v2 verify card]
+	 * @return   [array][response]
+	 */
+	public function verifyCard(){
+		try{
+			$this->checkVerifyCardData();
+		}catch(AcquiredException $e){
+			die($e->errorMessage());
+		}
+
+		$data["company_id"] = AcquiredConfig::COMPANYID;
+		$data["company_mid_id"] = AcquiredConfig::COMPANYMIDID;
+		$data["currency_code_iso3"] = isset($this->param["currency_code_iso3"]) ? $this->param["currency_code_iso3"] : '';
+		$data["cardnumber"] = $this->param["cardnumber"];
+		$data["method_notification_url"] = $this->param["method_notification_url"];
+		
+		$url = AcquiredConfig::VERIFY_CARD_URL;
+		$json = json_encode($data);
+
+		$response = $this->httpsRequest($url, $json, $this->curl_timeout, "json");
+
+		return json_decode($response,true);
+	}
+
+	public function checkSettleACSDatav2(){
+		if(empty($this->param['cres'])){
+			throw new AcquiredException("ERROR: Invalid pares");
+		}
+		
+		if(empty($this->param["transaction_type"]) || !in_array(strtoupper($this->param["transaction_type"]), array("AUTH_ONLY","AUTH_CAPTURE"))){
+			throw new AcquiredException("ERROR: Invalid transaction_type");
+		}
+		if(empty($this->param['original_transaction_id'])){
+			throw new AcquiredException("ERROR: Invalid original_transaction_id");
+		}
+		
+	}
+
+	public function createSettlementACSv2(){
+		try{
+			$this->param['action'] = "SCA_COMPLETE";
+
+			$this->checkSettleACSDatav2();
+			
+			$this->setBasicParam();
+
+			$transactionParam = array(
+				'transaction_type',
+				'original_transaction_id'
+			);
+			$tdsParam = array(
+				'action',
+				'cres'
+			);
+
+			$data = array();
+			foreach($this->param as $k=>$v){
+				if(in_array($k, $transactionParam)){
+					$data['transaction'][$k] = $v;
+					continue;
+				}
+				if(in_array($k, $tdsParam)){
+					$data['tds'][$k] = $v;
+					continue;
+				}
+				$data[$k] = $v;
+			}
+
+			return $data;
+		}catch(AcquiredException $e){
+			die($e->errorMessage());
+		}
+
+	}
+
+	/**
+	 * [postSettleACSv2: The final step to process 3-D secure v2]
+	 * @return   [array][response]
+	 */
+	public function postSettleACSv2(){
+		$data = $this->createSettlementACSv2();
 		$json = json_encode($data);
 		$response = $this->httpsRequest($this->url,$json,$this->curl_timeout,"json");
 		$this->clearParam();

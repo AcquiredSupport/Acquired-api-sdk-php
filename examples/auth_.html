@@ -12,8 +12,8 @@
 			<form action="./auth_.php" method="post" class="form-main">
 				<h2>auth_only or auth_capture</h2>
 				<p class="input-title">Basic Info: </p>
-				<p><label>Amount</label><input type="text" name="amount" value="100.00"  /></p>
-				<p><label>Currency Code ISO3</label><input type="text" name="currency" value="GBP"  /></p>
+				<p><label>Amount</label><input type="text" name="amount" value="1.00"  /></p>
+				<p><label>Currency Code ISO3</label><input type="text" name="currency" value="USD"  /></p>
 				<p>
 					<label>Transaction Type</label>
 					<select name="transaction_type">
@@ -32,7 +32,8 @@
 					<label>3-D Secure</label>
 					<select name="tds">
 						<option value="">Disabled</option>
-						<option value="1">Enquire</option>
+						<option value="1">3DS_v1</option>
+						<option value="2">3DS_v2</option>
 					</select>
 				</p>
 				<p class="input-title">Customer Info: </p>
@@ -45,7 +46,7 @@
 				<p><label>Company</label><input type="text" name="company" value="Acquired Payments" /></p>			
 				<p class="input-title">Billing Info: </p>
 				<p><label>Cardholder’s Name</label><input type="text" name="name" value="MR E N JOHNSON" /></p>
-				<p><label>Card Number</label><input type="text" name="number"  value="4012001037141112" /></p>
+				<p><label>Card Number</label><input type="text" name="number"  value="" /></p>
 				<p><label>Card Type</label><input type="text" name="type"  value="VISA" /></p>
 				<p><label>CVV2</label><input type="text" name="cvv" value="123" /></p>
 				<p><label>Expiration Date</label><input type="text" name="cardexp"  value="022023" /></p>
@@ -57,9 +58,36 @@
 				<p><label>Country Code ISO2</label><input type="text" name="iso2" value="GB" /></p>
 				<p><label>Phone</label><input type="text" name="phone" value="0207 4861322" /></p>
 				<p><label>Email</label><input type="text" name="email" value="support@acquired.com" /></p>
+				<p class="input-title">Link Info: </p>
+				<p><label>Beneficiary</label><input type="text" name="beneficiary" value="" /></p>
+				<input type="hidden" id="browser_data" name="browser_data" value="">
 				<p class="input-title tac"><button type="submit" class="btn">SUBMIT</button></p>
 			</form>
 		</div>
 	</div>
+<script>
+
+	gatherBrowserData();
+
+	function gatherBrowserData() {
+		var browserTime = new Date();
+		var browserTimezoneZoneOffset = (browserTime.getTimezoneOffset() / 60); // 0 
+
+		var browser_data = {
+			colorDepth: screen.colorDepth, // 24
+			javaEnabled: navigator.javaEnabled(), // true
+			browserLanguage: navigator.language, // en_US
+			screenHeight: screen.height, // 1080
+			screenWidth: screen.width, // 1920
+			userAgent: navigator.userAgent, // Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36
+			browserTimezoneZoneOffset: browserTimezoneZoneOffset, // 0
+		};
+
+		var browser_input = document.getElementById("browser_data");
+		browser_data = JSON.stringify(browser_data);
+		browser_input.value = browser_data;
+	    
+	}
+</script>
 </body>
 </html>

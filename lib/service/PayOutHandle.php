@@ -5,26 +5,27 @@ namespace Acquired\Service;
 use Acquired\AcquiredConfig;
 use Acquired\AcquiredException;
 
-class CaptureHandle extends HandlePub
+class PayOutHandle extends HandlePub
 {
-
 	public function checkData(){
-		if(empty($this->param["original_transaction_id"])){
-			throw new AcquiredException("ERROR: Require original_transaction_id");
-		}
-
-		if(empty($this->param["amount"])){
-			$this->param["amount"] = 0;
-		}
+		
 	}
 
 	public function createData(){
 		try{
 			$this->checkData();
 
-			$this->param["transaction_type"] = "CAPTURE";
+			$this->param["transaction_type"] = "PAY_OUT";
 			$this->setBasicParam();
-			$transactionParam = array("transaction_type","original_transaction_id","amount");
+
+			$transactionParam = array(
+				'transaction_type',
+				'merchant_order_id',
+				'original_transaction_id',
+				'amount',
+				'reference',
+			);
+
 			$data = array();
 			foreach($this->param as $k=>$v){
 				if(in_array($k, $transactionParam)){
@@ -38,5 +39,4 @@ class CaptureHandle extends HandlePub
 			die($e->errorMessage());
 		}
 	}
-
 }

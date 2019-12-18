@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Acquired REBILL</title>
+	<title>Acquired Rebill</title>
 	<link href="./public/css/general.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -12,7 +12,7 @@
 			<form action="./rebill.php" method="post" class="form-main">
 				<h2>REBILL Example</h2>
 				<p class="input-title">Basic Info: </p>
-				<p><label>Amount</label><input type="text" name="amount" value="100.00" required /></p>
+				<p><label>Amount</label><input type="text" name="amount" value="1" required /></p>
 				<p><label>Currency Code ISO3</label><input type="text" name="currency" value="GBP" required /></p>
 				<p><label>Original Transaction ID</label><input type="text" name="original_transaction_id" value="101750" required /></p>
 				<p>
@@ -22,6 +22,7 @@
 						<option value="2">AUTH_CAPTURE</option>
 					</select>
 				</p>
+				<p><label>link</label><input type="text" name="pay_out" value="" /></p>
 				<p class="input-title tac"><button type="submit" class="btn">SUBMIT</button></p>
 			</form>
 		</div>

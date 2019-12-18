@@ -25,9 +25,10 @@ class AcquiredCommon
 
 	//require hash
 	function sha256hash($param,$secret){
-	    if(in_array($param['transaction_type'],array('AUTH_ONLY','AUTH_CAPTURE','CREDIT','BENEFICIARY_NEW'))){
-			$str=$param['timestamp'].$param['transaction_type'].$param['company_id'].$param['merchant_order_id'];
-		}elseif(in_array($param['transaction_type'],array('CAPTURE','VOID','REFUND','SUBSCRIPTION_MANAGE'))){
+	    if(in_array($param['transaction_type'],array('AUTH_ONLY','AUTH_CAPTURE','CREDIT','BENEFICIARY_NEW','PAY_OUT'))){
+	    	$merchant_order_id = isset($param['merchant_order_id'])?$param['merchant_order_id']:'';
+			$str=$param['timestamp'].$param['transaction_type'].$param['company_id'].$merchant_order_id;
+		}elseif(in_array($param['transaction_type'],array('CAPTURE','VOID','REFUND','SUBSCRIPTION_MANAGE','ACCOUNT_UPDATER'))){
 			$str=$param['timestamp'].$param['transaction_type'].$param['company_id'].$param['original_transaction_id'];
 		}
 		return hash('sha256',$str.$secret);
@@ -35,7 +36,7 @@ class AcquiredCommon
 
 	//response hash
 	function responseHash($param,$secret){
-		$str=$param['timestamp'].$param['transaction_type'].$param["company_id"].$param['transaction_id'].$param['response_code'];
+		$str=$param['timestamp'].$param['transaction_type'].$param["company_id"].$param['transaction_id'].$param['response_code'];	
 		return hash('sha256',$str.$secret);
 	}
 
@@ -155,6 +156,21 @@ class AcquiredCommon
 		}
 		curl_close($ch);
 		return $result;
+	}
+
+	function getTdsColorDepthType($type_id){
+	    $color_depth_array = array(
+	        1 => 'ONE_BIT', 2 => 'TWO_BITS', 4 => 'FOUR_BITS ',
+	        8 => 'EIGHT_BITS', 15 => 'FIFTEEN_BITS', 16 => 'SIXTEEN_BITS ',
+	        24 => 'TWENTY_FOUR_BITS', 32 => 'THIRTY_TWO_BITS', 48 => 'FORTY_EIGHT_BITS ',
+	    );
+
+	    if(!is_numeric($type_id)){
+	        $color_depth_array = array_flip($color_depth_array);
+	        $type_id = strtoupper(trim($type_id));
+	    }
+
+	    return isset($color_depth_array[$type_id])?$color_depth_array[$type_id]:'';
 	}
 
 }

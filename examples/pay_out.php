@@ -1,8 +1,8 @@
 <?php
     require_once __DIR__ . '/../vendor/autoload.php';
-    use Acquired\Service\BeneficiaryNewHandle;
+    use Acquired\Service\PayOutHandle;
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+	if($_SERVER['REQUEST_METHOD'] == 'POST'){
         
         /**
          * 'timestamp' has been set on HandlePub.php
@@ -21,30 +21,16 @@
         
         /*====== step 1: Check customer post data ======*/
         //just for example
+        
         $merchant_order_id = date('Ymdhis').rand(10000,99999);//just for example
 
         /*====== step 2: Set parameters ======*/
-        $aqpay = new BeneficiaryNewHandle();
+        $aqpay = new PayOutHandle();
         //set transaction data
         $aqpay->setParam("merchant_order_id",$merchant_order_id);
-        $aqpay->setParam("original_transaction_id",$_POST['original_transaction_id']);
-        //set customer data
-        $aqpay->setParam("customer_fname",$_POST['fname']);
-        $aqpay->setParam("customer_lname",$_POST['lname']);
-        //set billing data
-        $aqpay->setParam("billing_street",$_POST['address']);
-        $aqpay->setParam("billing_street2",$_POST['address2']);
-        $aqpay->setParam("billing_city",$_POST['city']);
-        $aqpay->setParam("billing_state",$_POST['state']);
-        $aqpay->setParam("billing_zipcode",$_POST['zipcode']);
-        $aqpay->setParam("billing_country_code_iso2",$_POST['iso2']);
-        $aqpay->setParam("billing_phone",$_POST['phone']);
-        $aqpay->setParam("billing_email",$_POST['email']);
-        //set account data
-        $aqpay->setParam("sort_code",$_POST['sort_code']);
-        $aqpay->setParam("account_number",$_POST['account_number']);
-        //set link data
-        $aqpay->setParam("card", $_POST['card']);
+        $aqpay->setParam("original_transaction_id",$_POST["original_transaction_id"]);
+        $aqpay->setParam("amount",$_POST["amount"]);
+        $aqpay->setParam("reference",$_POST["reference"]);
 
         /*====== step 3: Post parameters ======*/        
         $result = $aqpay->postJson();
@@ -52,8 +38,11 @@
         echo "timestamp: ".$result['timestamp']."<br>";
         echo "response_code: ".$result['response_code']."<br>";
         echo "response_message: ".$result['response_message']."<br>";
-        if(isset($result['beneficiary_id'])){
-            echo "beneficiary_id: ".$result['beneficiary_id']."<br>";    
+        if(isset($result['transaction_type'])){
+            echo "transaction_type: ".$result['transaction_type']."<br>";
+        }
+        if(isset($result['transaction_id'])){
+            echo "transaction_id: ".$result['transaction_id']."<br>";    
         }
         
         /*====== step 4: Check response hash ======*/

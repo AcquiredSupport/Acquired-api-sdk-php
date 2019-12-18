@@ -2,7 +2,7 @@
     require_once __DIR__ . '/../vendor/autoload.php';
     use Acquired\Service\AuthHandle;
 
-	if($_SERVER['REQUEST_METHOD'] == 'POST'){        
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){        
 
         /**
          * 'timestamp' has been set on Acquired.Helper.php
@@ -38,6 +38,8 @@
         $auth->setParam("amount",$amount);
         $auth->setParam("currency_code_iso3",$currency_code_iso3);
         $auth->setParam("original_transaction_id",$original_transaction_id);
+        //set link data
+        $auth->setParam("pay_out",$_POST['pay_out']);
 
         /*====== step 3: Post parameters ======*/
         $result = $auth->rebillJson();
