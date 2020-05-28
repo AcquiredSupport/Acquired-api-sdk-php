@@ -32,7 +32,7 @@ index.php
 ``` 
 
 ## Documentation  ##
-https://docs.acquired.com/api.php
+https://developer.acquired.com/integrations
 
 ## Installation ##
 You can use Composer or simply Download the Release
